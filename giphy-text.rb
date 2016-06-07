@@ -3,6 +3,7 @@ require 'sinatra'
 require 'twilio-ruby'
 require 'json'
 require 'rest-client'
+require 'phony'
 
 
 get '/' do
@@ -12,13 +13,17 @@ end
 post '/form' do
   twilio_rest_client.account.messages.create(
     from: ENV['TWILIO_NUMBER'], # did the applicant expose this and other info in code or use environment vars?
-    to: ENV['AMY'],
+    to: normalized_phone_number,
     body: "Powered by Giphy", # did the applicant notice that GiphyAPI requested this be included with all gifs?
     media_url: gif_url
   )
 end
 
 private
+
+def normalized_phone_number
+  Phony.normalize(params[:phone]).prepend("+")
+end
 
 def twilio_rest_client
   account_sid = ENV['TWILIO_ACCOUNT_SID']
