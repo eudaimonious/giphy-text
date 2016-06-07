@@ -28,11 +28,12 @@ end
 
 def gif_url
   api_result = JSON.parse(request_gif)
-  api_result[:data][:original][:url]
+  api_result["data"]["images"]["original"]["url"]
 end
 
 def request_gif
   public_beta_giphy_api_key = "dc6zaTOxFJmzC"
   translate_endpoint = "http://api.giphy.com/v1/gifs/translate"
-  RestClient.get("#{translate_endpoint}?s=#{params[:text]}&api_key=#{public_beta_giphy_api_key}")
+  search_text = URI.escape(params[:text])
+  RestClient.get("#{translate_endpoint}?s=#{search_text}&api_key=#{public_beta_giphy_api_key}")
 end
