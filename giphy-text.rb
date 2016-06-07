@@ -22,7 +22,11 @@ end
 private
 
 def normalized_phone_number
-  Phony.normalize(params[:phone]).prepend("+")
+  number = Phony.normalize(params[:phone])
+  if number.length == 10
+    number.prepend('1')
+  end
+  number.prepend("+")
 end
 
 def twilio_rest_client
