@@ -13,8 +13,8 @@ post '/form' do
   twilio_rest_client.account.messages.create(
     from: ENV['TWILIO_NUMBER'],
     to: ENV['AMY'],
-    body: "Powered by Giphy"
-    media_url: gif_url(params[:text])
+    body: "Powered by Giphy",
+    media_url: gif_url
   )
 end
 
@@ -26,7 +26,7 @@ def twilio_rest_client
   client = Twilio::REST::Client.new account_sid, auth_token
 end
 
-def gif_url(text)
+def gif_url
   api_result = JSON.parse(request_gif)
   api_result[:data][:original][:url]
 end
