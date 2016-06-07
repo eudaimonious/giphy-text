@@ -1,0 +1,1 @@
+web: bundle exec ruby giphy-text.rb -p $PORT
